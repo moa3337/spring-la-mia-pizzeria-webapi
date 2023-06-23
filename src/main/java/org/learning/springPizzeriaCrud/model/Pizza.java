@@ -2,6 +2,7 @@ package org.learning.springPizzeriaCrud.model;
 
 import jakarta.persistence.*;
 
+import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
 @Entity
@@ -10,14 +11,14 @@ public class Pizza {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
-    @Column(nullable = false, unique = true)
+    @Column(nullable = false)
     private String nome;
     @Column(nullable = false)
     private String descrizione;
     @Column(nullable = false)
     private String image;
     @Column(nullable = false)
-    private Float prezzo;
+    private BigDecimal prezzo;
 
     private LocalDateTime createdAt;
 
@@ -53,11 +54,11 @@ public class Pizza {
         this.image = image;
     }
 
-    public Float getPrezzo() {
+    public BigDecimal getPrezzo() {
         return prezzo;
     }
 
-    public void setPrezzo(Float prezzo) {
+    public void setPrezzo(BigDecimal prezzo) {
         this.prezzo = prezzo;
     }
 

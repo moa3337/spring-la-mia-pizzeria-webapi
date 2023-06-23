@@ -3,26 +3,33 @@
 <head>
     <meta charset="UTF-8">
     <title>Pizza List</title>
+    <!-- Bootstrap -->
+    <link rel="stylesheet" th:href="@{/webjars/bootstrap/5.2.3/css/bootstrap.min.css}"/>
+    <style>
+        .card-img-top {
+            object-fit: cover;
+            height: 200px;
+        }
+
+    </style>
 </head>
 <body>
-<h1>Le nostre pizze</h1>
-<table>
-    <thead>
-    <tr>
-        <th>nome pizza</th>
-        <th>ingredienti</th>
-        <th>foto</th>
-        <th>prezzo</th>
-    </tr>
-    </thead>
-    <tbody>
-    <tr th:each="pizza : ${pizzaList}">
-        <td th:text="${pizza.nome}"></td>
-        <td th:text="${pizza.descrizione}"></td>
-        <td th:text="${pizza.image}"></td>
-        <td th:text="${pizza.prezzo}"></td>
-    </tr>
-    </tbody>
-</table>
+<a th:href="@{/pizzas}">Le nostre pizze</a>
+<h1 class="text-center">Le nostre pizze</h1>
+<div class="container d-flex justify-content-center">
+    <div th:each="pizza : ${pizzalist}" class="card mx-3" style="width: 18rem;">
+        <img class="card-img-top" alt="" th:src="${pizza.image}"/>
+        <div class="card-body d-flex flex-column">
+            <h5 th:text="${pizza.nome}" class="card-title text-danger mb-3"></h5>
+            <p class="fw-bold m-0">Ingredienti:</p>
+            <p th:text="${pizza.descrizione}" class="card-text"></p>
+            <div class="mt-auto">
+                <p class="fw-bold m-0">Prezzo:</p>
+                <p th:text="|${pizza.prezzo} $|"></p>
+                <a th:href="@{|/pizzas/${pizza.id}|}" class="btn btn-primary">Dettaglio</a>
+            </div>
+        </div>
+    </div>
+</div>
 </body>
 </html>
