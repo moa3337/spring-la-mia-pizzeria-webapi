@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Pizza Spring</title>
+    <!-- Bootstrap -->
+    <link rel="stylesheet" th:href="@{/webjars/bootstrap/5.2.3/css/bootstrap.min.css}"/>
+</head>
+<body>
+<div class="container">
+    <h1>crate</h1>
+    <!-- Form per la creazione della pizza -->
+    <form class="card" th:action="@{/pizzas/create}" th:object="${pizza}" method="post" id="pizza-form">
+        <div class="row">
+            <div class="col-6">
+                <label class="form-label" for="pizza-nome">Nome della pizza</label>
+                <input class="form-control" type="text" id="pizza-nome" th:field="*{nome}">
+                <label class="form-label" for="pizza-prezzo">Prezzo della pizza</label>
+                <input class="form-control" type="text" id="pizza-prezzo" th:field="*{prezzo}">
+            </div>
+            <div class="col-6">
+                <label class="form-label" for="pizza-image">Foto della pizza</label>
+                <input class="form-control" type="text" id="pizza-image" th:field="*{image}">
+                <label class="form-label" for="pizza-descrizione">Descrizione della pizza</label>
+                <textarea class="form-control" type="text" id="pizza-descrizione" th:field="*{descrizione}" rows="3"/>
+            </div>
+            <div class="col">
+                <button class="btn btn-primary" type="submit">Crea questa pizza</button>
+            </div>
+        </div>
+    </form>
+</div>
+</body>
+</html>

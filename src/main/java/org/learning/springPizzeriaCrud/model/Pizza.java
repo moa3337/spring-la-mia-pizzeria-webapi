@@ -1,6 +1,9 @@
 package org.learning.springPizzeriaCrud.model;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.Min;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Size;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
@@ -11,12 +14,18 @@ public class Pizza {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
+
+    @NotBlank(message = "Il nome della pizza è obligatorio")
+    @Size(min = 8, max = 100)
     @Column(nullable = false)
     private String nome;
+    @NotBlank(message = "La descrizione della pizza è obligatoria")
+    @Lob
     @Column(nullable = false)
     private String descrizione;
     @Column(nullable = false)
     private String image;
+    @Min(0)
     @Column(nullable = false)
     private BigDecimal prezzo;
 

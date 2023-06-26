@@ -2,7 +2,7 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Pizza List</title>
+    <title>Pizza Spring</title>
     <!-- Bootstrap -->
     <link rel="stylesheet" th:href="@{/webjars/bootstrap/5.2.3/css/bootstrap.min.css}"/>
     <style>
@@ -11,10 +11,12 @@
             height: 200px;
         }
 
+
     </style>
 </head>
-<body>
-<a th:href="@{/pizzas}">Le nostre pizze</a>
+<body class="bg-warning bg-opacity-10">
+<a th:href="@{/pizzas}" th:if="${pizzalist.size() > 0}">Le nostre pizze</a>
+<a th:href="@{/pizzas/create}" th:if="${pizzalist.size() > 0}">Aggiungi pizza</a>
 <h1 class="text-center">Le nostre pizze</h1>
 <div class="container d-flex justify-content-center">
     <div th:each="pizza : ${pizzalist}" class="card mx-3" style="width: 18rem;">
@@ -31,5 +33,6 @@
         </div>
     </div>
 </div>
+<div class="alert alert-info" th:unless="${pizzalist.size > 0}"></div>
 </body>
 </html>

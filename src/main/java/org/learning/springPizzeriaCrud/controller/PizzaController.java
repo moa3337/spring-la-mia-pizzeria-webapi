@@ -1,17 +1,17 @@
 package org.learning.springPizzeriaCrud.controller;
 
+import jakarta.validation.Valid;
 import org.learning.springPizzeriaCrud.model.Pizza;
 import org.learning.springPizzeriaCrud.model.repository.PizzaRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
@@ -24,8 +24,7 @@ public class PizzaController {
 
     /*
         @GetMapping
-        public String list(Model model) {
-            // Recupero la lista di pizze dal db
+        public String list(Model model){            // Recupero la lista di pizze dal db
             List<Pizza> pizzas = pizzaRepository.findAll();
             // Passo la lista di libri alla view
             model.addAttribute("pizzalist", pizzas);
@@ -44,7 +43,7 @@ public class PizzaController {
             // Se ho il parametro RequestParam faccio la query con filtro
             pizzas = pizzaRepository.findByNome(searchString);
         }
-        
+
         // Passo la lista di libri alla view
         model.addAttribute("pizzalist", pizzas);
         return "/pizzas/list";
@@ -63,5 +62,31 @@ public class PizzaController {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND,
                     "La pizza: " + pizzaId + "non trovata");
         }
+    }
+
+    // Controller che ritorna il form per creazione pizza
+    @GetMapping("/create")
+    public String create(Model model) {
+        // Aggiungi al model un attributo pizza contenente una pizza vuota
+        model.addAttribute("pizza", new Pizza());
+        // Form per creazione nuova pizza
+        return "/pizzas/create";
+    }
+
+    // Controller per gestire la post del form con i dati di pizza
+    @PostMapping("/create")
+    public String store(@Valid @ModelAttribute("pizza") Pizza formPizza, BindingResult bindingResult) {
+        // I dati di pizza sono dentro all'oggetto formPizza
+        // Verifico in validazione se ci sono stati errori
+        if (bindingResult.hasErrors()) {
+            // Se ci sono stati errori
+            return "/pizzas/create"; // Ritorno il form precaricato
+        }
+        // Setto il timestamp di creazione
+        formPizza.setCreatedAt(LocalDateTime.now());
+        // Persisto formPizza su db
+        pizzaRepository.save(formPizza);
+        // Se tutto va bene rimando alla lista delle pizze
+        return "redirect:/pizzas";
     }
 }
