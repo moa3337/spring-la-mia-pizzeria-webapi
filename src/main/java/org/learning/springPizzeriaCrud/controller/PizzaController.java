@@ -10,6 +10,7 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -51,7 +52,7 @@ public class PizzaController {
 
     @GetMapping("/{id}")
     public String detail(@PathVariable("id") Integer pizzaId, Model model) {
-        // Cerco dal db i dettagli di pizza tramite id
+        /*// Cerco dal db i dettagli di pizza tramite id
         Optional<Pizza> result = pizzaRepository.findById(pizzaId);
         if (result.isPresent()) {
             // Passo la pizza alla view
@@ -61,7 +62,12 @@ public class PizzaController {
         } else {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND,
                     "La pizza: " + pizzaId + "non trovata");
-        }
+        }*/
+        Pizza pizza = getPizzaById(pizzaId);
+        // Passo la pizza alla view
+        model.addAttribute("pizza", pizza);
+        // Ritorno il nome del template della view
+        return "/pizzas/detail";
     }
 
     // Controller che ritorna il form per creazione pizza
@@ -70,7 +76,7 @@ public class PizzaController {
         // Aggiungi al model un attributo pizza contenente una pizza vuota
         model.addAttribute("pizza", new Pizza());
         // Form per creazione nuova pizza
-        return "/pizzas/create";
+        return "/pizzas/edit"; // Ritorno il form unico create/edit
     }
 
     // Controller per gestire la post del form con i dati di pizza
@@ -80,7 +86,8 @@ public class PizzaController {
         // Verifico in validazione se ci sono stati errori
         if (bindingResult.hasErrors()) {
             // Se ci sono stati errori
-            return "/pizzas/create"; // Ritorno il form precaricato
+            //return "/pizzas/edit"; // Ritorno il form unico create/edit
+            return "/pizzas/edit"; // Ritorno il form unico create/edit
         }
         // Setto il timestamp di creazione
         formPizza.setCreatedAt(LocalDateTime.now());
@@ -88,5 +95,70 @@ public class PizzaController {
         pizzaRepository.save(formPizza);
         // Se tutto va bene rimando alla lista delle pizze
         return "redirect:/pizzas";
+    }
+
+    // Metodo per l'edit
+    @GetMapping("/edit/{id}")
+    public String edit(@PathVariable Integer id, Model model) {
+        /*// Verifico se esiste quel pizza id
+        Optional<Pizza> result = pizzaRepository.findById(id);
+        // Se no ritorno un error 404
+        if (result.isEmpty()) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "pizza con id " + id + "non trovata");
+        }*/
+        Pizza pizza = getPizzaById(id);
+        // Cerco i dati di quella pizza sul db
+        // Aggiungo la pizza al model
+        model.addAttribute("pizza", pizza);
+        // Ritorno il template form edit
+        return "/pizzas/edit";
+    }
+
+    @PostMapping("/edit/{id}")
+    public String doEdit(
+            @PathVariable Integer id,
+            @Valid @ModelAttribute("pizza") Pizza formPizza,
+            BindingResult bindingResult
+    ) {
+        // Cerco la pizza per id
+        Pizza pizzaToEdit = getPizzaById(id); // Vecchia versione di pizza
+        // La nuova verisone di pizza è formPizza
+        // Valido il
+        if (bindingResult.hasErrors()) {
+            // Se ci sono errori ritorno il form
+            return "/pizzas/edit";
+        }
+        // Trasferisco su formPizza i valori dei campi non presenti nel form
+        formPizza.setId(pizzaToEdit.getId());
+        formPizza.setCreatedAt(pizzaToEdit.getCreatedAt());
+        // Salvo idati
+        pizzaRepository.save(formPizza);
+        return "redirect:/pizzas";
+    }
+
+    // Metodo per la delete
+    @PostMapping("/delete/{id}")
+    public String delete(@PathVariable Integer id, RedirectAttributes redirectAttributes) {
+        // Verifo che esista quel id pizza
+        Pizza pizzaToDelete = getPizzaById(id);
+        // Lo cancello
+        pizzaRepository.delete(pizzaToDelete);
+        // Aggiungo messaggio successo come flashAttribute
+        redirectAttributes.addFlashAttribute(
+                "message",
+                "Pizza" + pizzaToDelete.getNome() + "eliminata con successo"
+        );
+        // Redirect alla lista pizze
+        return "redirect:/pizzas";
+    }
+
+    private Pizza getPizzaById(Integer id) {
+        // Verifico se esiste quel pizza id
+        Optional<Pizza> result = pizzaRepository.findById(id);
+        // Se no ritorno un error 404
+        if (result.isEmpty()) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "pizza con id " + id + "non trovata");
+        }
+        return result.get();
     }
 }

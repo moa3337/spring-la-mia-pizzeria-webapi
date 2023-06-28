@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Pizza Spring</title>
+    <!-- Bootstrap -->
+    <link rel="stylesheet" th:href="@{/webjars/bootstrap/5.2.3/css/bootstrap.min.css}"/>
+</head>
+<body class="bg-warning bg-opacity-10">
+<div class="container">
+    <h1 class="text-danger my-4">Aggiungi una nuova pizza alla lista</h1>
+    <!-- Form per la creazione della pizza -->
+    <form class="card rounded p-3" th:action="@{/pizzas/create}" th:object="${pizza}" method="post" id="pizza-form">
+        <!-- Div con l'elenco degli errori
+        <div class="" th:if="${#fields.hasErrors()}">
+            <ul>
+                <li th:each="err : ${#fields.allErrors()}" th:text="${err}"></li>
+            </ul>
+        </div> -->
+
+        <div class="row">
+            <div class="col-6">
+                <label class="form-label" for="pizza-nome">Nome della pizza</label>
+                <input class="form-control" type="text" id="pizza-nome"
+                       th:field="*{nome}" th:errorClass="is-invalid">
+                <div class="invalid-feedback" th:if="${#fields.hasErrors('nome')}">
+                    <ul>
+                        <li th:each="err : ${#fields.errors('nome')}" th:text="${err}"></li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="col-6">
+                <label class="form-label" for="pizza-prezzo">Prezzo della pizza</label>
+                <input class="form-control" type="text" id="pizza-prezzo"
+                       th:field="*{prezzo}" th:errorClass="is-invalid">
+                <div class="invalid-feedback" th:if="${#fields.hasErrors('prezzo')}">
+                    <ul>
+                        <li th:each="err : ${#fields.errors('prezzo')}" th:text="${err}"></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <div class="row mt-3">
+            <div class="col-6">
+                <label class="form-label" for="pizza-image">Foto della pizza</label>
+                <input class="form-control" type="text" id="pizza-image" th:field="*{image}">
+            </div>
+
+            <div class="col-6">
+                <label class="form-label" for="pizza-descrizione">Descrizione della pizza</label>
+                <textarea class="form-control" type="text" id="pizza-descrizione" rows="3"
+                          th:field="*{descrizione}" th:errorClass="is-invalid"></textarea>
+                <div class="invalid-feedback" th:if="${#fields.hasErrors('descrizione')}">
+                    <ul>
+                        <li th:each="err : ${#fields.errors('descrizione')}" th:text="${err}"></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="col mt-3">
+                <button class="btn btn-primary" type="submit">Crea questa pizza</button>
+            </div>
+        </div>
+    </form>
+</div>
+</body>
+</html>

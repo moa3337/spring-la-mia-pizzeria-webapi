@@ -1,8 +1,9 @@
 package org.learning.springPizzeriaCrud.model;
 
 import jakarta.persistence.*;
-import jakarta.validation.constraints.Min;
+import jakarta.validation.constraints.DecimalMin;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 
 import java.math.BigDecimal;
@@ -25,7 +26,8 @@ public class Pizza {
     private String descrizione;
     @Column(nullable = false)
     private String image;
-    @Min(0)
+    @DecimalMin(value = "0.0", inclusive = false)
+    @NotNull(message = "Il prezzo è obbligatorio")
     @Column(nullable = false)
     private BigDecimal prezzo;
 
