@@ -8,6 +8,8 @@ import jakarta.validation.constraints.Size;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Table(name = "pizzas")
@@ -32,6 +34,10 @@ public class Pizza {
     private BigDecimal prezzo;
 
     private LocalDateTime createdAt;
+
+    @OneToMany(mappedBy = "pizza", cascade = {CascadeType.REMOVE})
+    // Relazione con le offerte
+    private List<Offerta> offertaList = new ArrayList<>();
 
     public Integer getId() {
         return id;
@@ -75,6 +81,14 @@ public class Pizza {
 
     public LocalDateTime getCreatedAt() {
         return createdAt;
+    }
+
+    public List<Offerta> getOffertaList() {
+        return offertaList;
+    }
+
+    public void setOffertaList(List<Offerta> offertaList) {
+        this.offertaList = offertaList;
     }
 
     public void setCreatedAt(LocalDateTime createdAt) {

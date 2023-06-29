@@ -8,7 +8,8 @@
 </head>
 <body class="bg-warning bg-opacity-10">
 <a th:href="@{/pizzas}">Le nostre pizze</a>
-<div class="container mt-3">
+<!-- DETTAGLIO PIZZA -->
+<section class="container mt-3">
     <div class="card rounded p-3">
         <div class="row" th:object="${pizza}">
             <div class="col-6">
@@ -23,6 +24,32 @@
             </div>
         </div>
     </div>
-</div>
+</section>
+
+<!-- OFFERTE -->
+<section class="container mt-5">
+    <h2 class="text-danger mb-3">Le offerte attive su questa pizza</h2>
+    <!-- Button per aggiungere offerte alla pizza -->
+    <a class="btn btn-outline-primary mb-3" th:href="@{/offers/create(pizzaId=${pizza.id})}">Metti in offerta</a>
+    <table class="table" th:if="${pizza.offertaList.size()} > 0">
+        <thead>
+        <tr>
+            <th class="">Offerta</th>
+            <th>Inizio Offerta</th>
+            <th>Fine Offerta</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="offerta : ${pizza.offertaList}" th:object="${offerta}">
+            <td class="text-success" th:text="*{nomeOfferta}"></td>
+            <td th:text="*{#temporals.format(inizioOfferta, 'dd/MM/yyyy')}"></td>
+            <td th:text="*{#temporals.format(fineOfferta, 'dd/MM/yyyy')}"></td>
+        </tr>
+        </tbody>
+    </table>
+    <div class="alert alert-info fw-bold" th:unless="${pizza.offertaList.size()} > 0">
+        Al momento non ci sono offerte attive su questa pizza
+    </div>
+</section>
 </body>
 </html>
