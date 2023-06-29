@@ -7,6 +7,7 @@
     <link rel="stylesheet" th:href="@{/webjars/bootstrap/5.2.3/css/bootstrap.min.css}"/>
 </head>
 <body class="bg-warning bg-opacity-10" th:with="isEdit=${pizza.id != null}">
+<a th:href="@{/pizzas}">Le nostre pizze</a>
 <div class="container">
     <h1 class="text-danger my-4"
         th:text="${isEdit ? 'Modifica questa pizza' : 'Aggiungi una nuova pizza alla lista'}"></h1>
@@ -62,9 +63,11 @@
                 </div>
             </div>
             <div class="col mt-3">
-                <button class="btn btn-primary" type="submit"
+                <button class="btn btn-outline-primary" type="submit"
                         th:text="${isEdit ? 'Salva modifiche' : 'Crea questa pizza'}"
                 ></button>
+                <a class="btn btn-outline-secondary ms-2" th:href="@{/pizzas}">Torna alla
+                    lista pizze</a>
             </div>
         </div>
     </form>

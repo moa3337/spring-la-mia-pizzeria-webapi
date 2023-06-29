@@ -16,6 +16,9 @@ import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
+/***
+ * INDEX *
+ ***/
 @Controller
 @RequestMapping("/pizzas")
 public class PizzaController {
@@ -50,6 +53,9 @@ public class PizzaController {
         return "/pizzas/list";
     }
 
+    /***
+     * SHOW *
+     ***/
     @GetMapping("/{id}")
     public String detail(@PathVariable("id") Integer pizzaId, Model model) {
         /*// Cerco dal db i dettagli di pizza tramite id
@@ -79,6 +85,9 @@ public class PizzaController {
         return "/pizzas/edit"; // Ritorno il form unico create/edit
     }
 
+    /***
+     * CREATE *
+     ***/
     // Controller per gestire la post del form con i dati di pizza
     @PostMapping("/create")
     public String store(@Valid @ModelAttribute("pizza") Pizza formPizza, BindingResult bindingResult) {
@@ -97,6 +106,9 @@ public class PizzaController {
         return "redirect:/pizzas";
     }
 
+    /***
+     * UPDDATE *
+     ***/
     // Metodo per l'edit
     @GetMapping("/edit/{id}")
     public String edit(@PathVariable Integer id, Model model) {
@@ -136,6 +148,9 @@ public class PizzaController {
         return "redirect:/pizzas";
     }
 
+    /***
+     * DELETE *
+     ***/
     // Metodo per la delete
     @PostMapping("/delete/{id}")
     public String delete(@PathVariable Integer id, RedirectAttributes redirectAttributes) {
