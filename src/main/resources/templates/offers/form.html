@@ -8,7 +8,53 @@
 </head>
 <body>
 <div class="container">
-    <h1 class="" th:text="|Offerta ${offertaList.pizza.nome}|">Form delle offerte</h1>
+    <h1 class="my-4" th:text="|Offerte ${offerta.pizza.nome}|">Form delle offerte</h1>
+    <form class="card rounded p-3"
+          id="offerta-form"
+          method="post"
+          th:with="formAction=${offerta.id != null ? '/offers/edit/'+offerta.id : '/offers/create'}"
+          th:action="@{${formAction}}"
+          th:object="${offerta}"
+    >
+        <input type="hidden" th:field="*{pizza}">
+        <div class="row">
+            <div class="col-6">
+                <label class="form-label" for="offerta-dataInizio">Data inizio offerta</label>
+                <input class="form-control" type="date" id="offerta-dataInizio" th:field="*{inizioOfferta}">
+                <div class="form-text">Questo campo non più essere vuoto</div>
+                <div class="invalid-feedback" th:if="${#fields.hasErrors('inizioOfferta')}">
+                    <ul>
+                        <li th:each="err : ${#fields.errors('inizioOfferta')}" th:text="${err}"></li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="col-6">
+                <label class="form-label" for="offerta-dataFine">Data fine offerta</label>
+                <input class="form-control" type="date" id="offerta-dataFine" th:field="*{fineOfferta}">
+                <div class="form-text">Questo campo non più essere vuoto</div>
+                <div class="invalid-feedback" th:if="${#fields.hasErrors('fineOfferta')}">
+                    <ul>
+                        <li th:each="err : ${#fields.errors('fineOfferta')}" th:text="${err}"></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="col-12 mt-2">
+                <label class="form-label" for="offerta-nome">Nome dell'offerta</label>
+                <input class="form-control" type="text" id="offerta-nome" th:field="*{nomeOfferta}">
+                <div class="form-text">Questo campo non più essere vuoto</div>
+                <div class="invalid-feedback" th:if="${#fields.hasErrors('nomeOfferta')}">
+                    <ul>
+                        <li th:each="err : ${#fields.errors('nomeOfferta')}" th:text="${err}"></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="col mt-5">
+                <button class="btn btn-outline-primary" type="submit">Assegna offerta</button>
+                <a th:href="@{|/pizzas/${offerta.pizza.id}|}" class="btn btn-outline-secondary ms-2">Annulla</a>
+            </div>
+        </div>
+    </form>
 </div>
 </body>
 </html>

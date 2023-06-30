@@ -37,6 +37,7 @@
             <th class="">Offerta</th>
             <th>Inizio Offerta</th>
             <th>Fine Offerta</th>
+            <th>Fine Offerta</th>
         </tr>
         </thead>
         <tbody>
@@ -44,6 +45,12 @@
             <td class="text-success" th:text="*{nomeOfferta}"></td>
             <td th:text="*{#temporals.format(inizioOfferta, 'dd/MM/yyyy')}"></td>
             <td th:text="*{#temporals.format(fineOfferta, 'dd/MM/yyyy')}"></td>
+            <td>
+                <a th:href="@{|/offers/edit/*{id}|}" class="btn btn-outline-primary">Modifica offerta</a>
+                <form th:action="@{|/offertaList/delete/*{id}|}" method="post">
+                    <button class="btn btn-outline-danger" type="submit">Elimina</button>
+                </form>
+            </td>
         </tr>
         </tbody>
     </table>
