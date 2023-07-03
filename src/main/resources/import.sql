@@ -4,3 +4,6 @@ INSERT INTO `pizzas`(`id`, `prezzo`, `created_at`, `descrizione`, `image`, `nome
 
 INSERT INTO `offers`(`fine_offerta`, `id`, `inizio_offerta`, `pizza_id`, `nome_offerta`) VALUES ('2023-09-15',1,'2023-07-01',1,'Pizza + Lattina')
 INSERT INTO `offers`(`fine_offerta`, `id`, `inizio_offerta`, `pizza_id`, `nome_offerta`) VALUES ('2023-09-15',2,'2023-07-01',1,'DoublePizza + Bottiglia 2l')
+
+INSERT INTO `ingredients`(`id`, `image`, `nome`) VALUES (1,'https://www.alpenfein.com/fileadmin/_processed_/f/5/csm_124336061_s_40f7017471.jpg','Salsa di pomodoro')
+INSERT INTO `ingredients`(`id`, `image`, `nome`) VALUES (2,'https://www.checucino.it/wp-content/uploads/2019/02/iStock-181151637-1-930x620.jpg','Mozzarella fresca')

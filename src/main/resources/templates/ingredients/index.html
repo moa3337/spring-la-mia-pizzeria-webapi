@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <!-- Bootstrap -->
+    <link rel="stylesheet" th:href="@{/webjars/bootstrap/5.2.3/css/bootstrap.min.css}"/>
+</head>
+<body class="bg-warning bg-opacity-10">
+<a th:href="@{/pizzas}">Le nostre pizze</a>
+<div class="container">
+    <h1 class="">Ingredienti</h1>
+    <!-- Form per aggiungere ingredienti -->
+    <div class="card rounded p-3">
+        <form th:object="${ingredientObj}"
+              th:action="@{/ingredients/save}"
+              id="ingredient-form"
+              method="post">
+            <div class="row">
+                <div class="col-6">
+                    <label class="form-label" for="ingrdient-nome">Nome ingrediente</label>
+                    <input class="form-control" type="text" id="ingrdient-nome"
+                           th:field="*{nome}" th:errorClass="is-invalid">
+                    <div class="invalid-feedback" th:if="${#fields.hasErrors('nome')}">
+                        <ul>
+                            <li th:each="err : ${#fields.errors('nome')}" th:text="${err}"></li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="col-6">
+                    <label class="form-label" for="ingrdient-image">Link immagine</label>
+                    <input class="form-control" type="text" id="ingrdient-image"
+                           th:field="*{image}" th:errorClass="is-invalid">
+                    <div class="invalid-feedback" th:if="${#fields.hasErrors('image')}">
+                        <ul>
+                            <li th:each="err : ${#fields.errors('image')}" th:text="${err}"></li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="col mt-3">
+                    <button class="btn btn-outline-primary" type="submit">Aggiungi ingrediente</button>
+                    <button class="btn btn-outline-secondary ms-2">Annulla</button>
+                </div>
+            </div>
+        </form>
+    </div>
+    <!-- Lista ingredienti -->
+    <table class="table table-striped" th:if="${ingredients.size() > 0}">
+        <thead>
+        <tr>
+            <th scope="col">#</th>
+            <th scope="col">Foto</th>
+            <th scope="col">Mome</th>
+            <th scope="col">Modifica</th>
+            <th scope="col">Elimina</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="ingredient : ${ingredients}" th:object="${ingredient}">
+            <th scope="row">1</th>
+            <td>
+                <img class="w-25" th:src="*{image}">
+            </td>
+            <td th:text="*{nome}"></td>
+            <td><a th:href="@{/ingredients(edit=*{id})}">edit</a></td>
+            <td>Elimina</td>
+        </tr>
+        </tbody>
+    </table>
+    <div class="alert alert-info fw-bold" th:unless="${ingredients.size() > 0}">
+        Al momento la lista degli ingredienti è vuota
+    </div>
+</div>
+</body>
+</html>

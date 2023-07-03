@@ -14,22 +14,12 @@
 
 
 
-
-
-
-
-
-
-
-
-
-
-
     </style>
 </head>
 <body class="bg-warning bg-opacity-10">
 <a th:href="@{/pizzas}" th:if="${pizzalist.size() > 0}">Le nostre pizze</a>
 <a th:href="@{/pizzas/create}" th:if="${pizzalist.size() > 0}">Aggiungi pizza</a>
+<a th:href="@{/ingredients}" th:if="${pizzalist.size() > 0}">Lista ingredienti</a>
 <div class="container">
     <h1 class="text-center my-3">Le nostre pizze</h1>
     <div class="alert alert-success alert-dismissible fade show"
