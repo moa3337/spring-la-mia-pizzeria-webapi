@@ -7,3 +7,10 @@ INSERT INTO `offers`(`fine_offerta`, `id`, `inizio_offerta`, `pizza_id`, `nome_o
 
 INSERT INTO `ingredients`(`id`, `image`, `nome`) VALUES (1,'https://www.alpenfein.com/fileadmin/_processed_/f/5/csm_124336061_s_40f7017471.jpg','Salsa di pomodoro')
 INSERT INTO `ingredients`(`id`, `image`, `nome`) VALUES (2,'https://www.checucino.it/wp-content/uploads/2019/02/iStock-181151637-1-930x620.jpg','Mozzarella fresca')
+
+INSERT INTO `roles`(`id`, `name`) VALUES (1,'ADMIN');
+INSERT INTO `roles`(`id`, `name`) VALUES (2,'USER');
+INSERT INTO `users`(`id`, `email`, `first_name`, `last_name`, `password`) VALUES (1,'john@email.com','John','Doe','{noop}john');
+INSERT INTO `users`(`id`, `email`, `first_name`, `last_name`, `password`) VALUES (2,'jane@email.com','Jane','Doe','{noop}jane');
+INSERT INTO `users_roles`(`roles_id`, `users_id`) VALUES (1, 1);
+INSERT INTO `users_roles`(`roles_id`, `users_id`) VALUES (2, 2);
