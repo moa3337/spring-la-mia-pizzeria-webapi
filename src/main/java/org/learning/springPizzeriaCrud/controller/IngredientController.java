@@ -7,12 +7,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 
 @Controller
 @RequestMapping("/ingredients")
@@ -21,7 +19,7 @@ public class IngredientController {
     private IngredientRepository ingredientRepository;
 
     @GetMapping
-    public String index(Model model, RequestMapping("edit") Optional<Integer> ingredientId) {
+    public String index(Model model, @RequestParam("edit") Optional<Integer> ingredientId) {
         // Recupero da db tutti gli ingredienti
         List<Ingredients> ingredientsList = ingredientRepository.findAll();
         // Passo al model un attributo Ingredients con tutti gli ingredienti
@@ -29,7 +27,17 @@ public class IngredientController {
         // Passo al model un attributo ingredientObj per mappare il form sun un ogetto Ingredients
         Ingredients ingredientObj;
         // Se ho il parametro IngredientsId allora cerco l'ingrediente su db
-        if (ingredientId)
+        if (ingredientId.isPresent()) {
+            Optional<Ingredients> ingredientDb = ingredientRepository.findById(ingredientId.get());
+            if (ingredientDb.isPresent()) {
+                ingredientObj = ingredientDb.get();
+            } else {
+                ingredientObj = new Ingredients();
+            }
+        } else {
+            ingredientObj = new Ingredients();
+        }
+        model.addAttribute("ingredientObj", ingredientObj);
         return "/ingredients/index";
     }
 
