@@ -21,7 +21,7 @@ public class User {
         return id;
     }
 
-    @ManyToMany
+    @ManyToMany(fetch = FetchType.EAGER)
     private Set<Role> roles;
 
     public void setId(Integer id) {
