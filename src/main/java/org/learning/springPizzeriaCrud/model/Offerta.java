@@ -1,5 +1,6 @@
 package org.learning.springPizzeriaCrud.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 
@@ -19,6 +20,7 @@ public class Offerta {
 
     private String nomeOfferta;
 
+    @JsonIgnore
     @ManyToOne
     @JoinColumn(nullable = false)
     // Attributo che contiene la relazione con pizza

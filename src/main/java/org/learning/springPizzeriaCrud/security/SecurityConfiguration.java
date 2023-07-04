@@ -48,10 +48,12 @@ public class SecurityConfiguration {
                 .requestMatchers("/pizzas/create").hasAnyAuthority("ADMIN")
                 .requestMatchers("/pizzas/**").hasAnyAuthority("ADMIN", "USER")
                 .requestMatchers("/ingredients/**").hasAnyAuthority("ADMIN")
-                .requestMatchers(HttpMethod.POST).hasAnyAuthority("ADMIN")
+                .requestMatchers(HttpMethod.POST, "/ingredients/**").hasAnyAuthority("ADMIN")
                 .requestMatchers("/**").permitAll()
                 .and().formLogin()
                 .and().logout();
+        // Disabilitazione csrf per poter invocare le api da Postman
+        http.csrf().disable();
         return http.build();
     }
 }
